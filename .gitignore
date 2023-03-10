@@ -1,3 +1,4 @@
 dataset
 *.ipynb
 *.npy
+mel_spectrogram

@@ -1,6 +1,8 @@
 from glob import iglob
 
 import librosa
+import librosa.display
+import matplotlib.pyplot as plt
 import numpy as np
 from tqdm.notebook import tqdm
 
@@ -126,4 +128,23 @@ def make_dataset_using_log_mel_spectrogram():
     np.save("./no_padding_labels.npy", labels)
 
 
-make_dataset_using_log_mel_spectrogram()
+def make_spectrogram():
+    dataset = np.load("./no_padding_dataset.npy")
+    labels = np.load("./no_padding_labels.npy")
+    for i in range(50):
+        d = dataset[i].transpose()
+        plt.figure(figsize=(10, 4))
+        librosa.display.specshow(
+            d,
+            y_axis="mel",
+            sr=16000,
+            hop_length=160,
+            x_axis="time",
+        )
+        plt.colorbar(format="%+2.0f dB")
+        plt.title("Mel-Spectrogram")
+        plt.tight_layout()
+        plt.savefig("./mel_spectrogram/Mel-Spectrogram" + str(i) + ".png")
+
+
+make_spectrogram()
